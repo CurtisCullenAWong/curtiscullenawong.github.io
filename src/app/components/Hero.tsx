@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { useMemo } from "react";
 import { UniverseParallax } from "./UniverseParallax";
+import meImg from "../../../assets/me.jpg";
 
 
 const STARS = [
@@ -25,111 +26,122 @@ function CosmicRune({ className }: { className?: string }) {
       const a = (i * 7.5 * Math.PI) / 180;
       const major = i % 6 === 0;
       const minor = i % 3 === 0;
-      const r1 = 168;
-      const r2 = major ? 156 : minor ? 161 : 164;
+      const r1 = 192;
+      const r2 = major ? 178 : minor ? 184 : 187;
       return { x1: Math.cos(a) * r1, y1: Math.sin(a) * r1, x2: Math.cos(a) * r2, y2: Math.sin(a) * r2, major };
     }), []);
 
   const midTicks = useMemo(() =>
     Array.from({ length: 24 }, (_, i) => {
       const a = (i * 15 * Math.PI) / 180;
-      const r1 = 116;
-      const r2 = i % 3 === 0 ? 108 : 112;
+      const r1 = 138;
+      const r2 = i % 3 === 0 ? 128 : 133;
       return { x1: Math.cos(a) * r1, y1: Math.sin(a) * r1, x2: Math.cos(a) * r2, y2: Math.sin(a) * r2 };
     }), []);
 
   const spokes = [0, 45, 90, 135, 180, 225, 270, 315];
 
   return (
-    <svg viewBox="-200 -200 400 400" className={className} aria-hidden>
+    <svg viewBox="-220 -220 440 440" className={className} aria-hidden>
       <defs>
         <radialGradient id="h-nebula-core" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#1e1240" stopOpacity="0.55" />
-          <stop offset="60%" stopColor="#0d0d1a" stopOpacity="0.2" />
+          <stop offset="0%" stopColor="#1e1240" stopOpacity="0.5" />
+          <stop offset="60%" stopColor="#0d0d1a" stopOpacity="0.15" />
           <stop offset="100%" stopColor="#0a0a0c" stopOpacity="0" />
         </radialGradient>
         <radialGradient id="h-nebula-teal" cx="70%" cy="30%" r="60%">
-          <stop offset="0%" stopColor="#0a2030" stopOpacity="0.35" />
+          <stop offset="0%" stopColor="#0a2030" stopOpacity="0.3" />
           <stop offset="100%" stopColor="#0a0a0c" stopOpacity="0" />
         </radialGradient>
         <radialGradient id="h-nebula-violet" cx="25%" cy="70%" r="55%">
-          <stop offset="0%" stopColor="#1a0d2e" stopOpacity="0.3" />
+          <stop offset="0%" stopColor="#1a0d2e" stopOpacity="0.25" />
           <stop offset="100%" stopColor="#0a0a0c" stopOpacity="0" />
         </radialGradient>
         <filter id="h-glow">
           <feGaussianBlur stdDeviation="1.5" result="b" />
           <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
+
+        {/* Clip path for embedded central portrait medallion (Large Scale) */}
+        <clipPath id="hero-avatar-clip">
+          <circle cx="0" cy="0" r="115" />
+        </clipPath>
       </defs>
 
-      <circle r="200" fill="url(#h-nebula-core)" />
-      <circle r="200" fill="url(#h-nebula-teal)" />
-      <circle r="200" fill="url(#h-nebula-violet)" />
+      <circle r="215" fill="url(#h-nebula-core)" />
+      <circle r="215" fill="url(#h-nebula-teal)" />
+      <circle r="215" fill="url(#h-nebula-violet)" />
 
       {STARS.map((s, i) => (
-        <circle key={i} cx={s.x} cy={s.y} r={s.r} fill="#e8e6e3" opacity={s.o} filter="url(#h-glow)" />
+        <circle key={i} cx={s.x * 1.1} cy={s.y * 1.1} r={s.r} fill="#e8e6e3" opacity={s.o} filter="url(#h-glow)" />
       ))}
 
       {/* Outer ring — slow CW */}
       <motion.g animate={{ rotate: 360 }} transition={{ duration: 90, repeat: Infinity, ease: "linear" }}>
-        <circle r="168" fill="none" stroke="#252530" strokeWidth="0.6" />
+        <circle r="192" fill="none" stroke="#252530" strokeWidth="0.6" />
         {outerTicks.map((t, i) => (
           <line key={i} x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
             stroke={t.major ? "#3a3a48" : "#252530"} strokeWidth={t.major ? 1 : 0.5} />
         ))}
         {[0, 90, 180, 270].map((deg) => {
           const a = (deg * Math.PI) / 180;
-          const cx = Math.cos(a) * 168, cy = Math.sin(a) * 168;
+          const cx = Math.cos(a) * 192, cy = Math.sin(a) * 192;
           return <polygon key={deg} points={`${cx},${cy - 4} ${cx + 3},${cy} ${cx},${cy + 4} ${cx - 3},${cy}`} fill="#3a3a48" />;
         })}
       </motion.g>
 
       {/* Mid ring — slow CCW */}
       <motion.g animate={{ rotate: -360 }} transition={{ duration: 60, repeat: Infinity, ease: "linear" }}>
-        <circle r="116" fill="none" stroke="#20202a" strokeWidth="0.5" />
+        <circle r="138" fill="none" stroke="#20202a" strokeWidth="0.5" />
         {midTicks.map((t, i) => (
           <line key={i} x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2} stroke="#2e2e3a" strokeWidth="0.5" />
         ))}
         {[45, 135, 225, 315].map((deg) => {
           const a = (deg * Math.PI) / 180;
-          const cx = Math.cos(a) * 116, cy = Math.sin(a) * 116;
+          const cx = Math.cos(a) * 138, cy = Math.sin(a) * 138;
           return <rect key={deg} x={cx - 2} y={cy - 2} width="4" height="4" fill="#282838" transform={`rotate(45 ${cx} ${cy})`} />;
         })}
       </motion.g>
 
-      {/* Inner rings — static */}
-      <circle r="72" fill="none" stroke="#1e1e28" strokeWidth="0.5" />
-      <circle r="54" fill="none" stroke="#1a1a24" strokeWidth="0.4" />
-
-      {/* Spokes */}
+      {/* Spokes — radiating cleanly from medallion */}
       {spokes.map((deg) => {
         const a = (deg * Math.PI) / 180;
-        return <line key={deg} x1="0" y1="0" x2={Math.cos(a) * 168} y2={Math.sin(a) * 168} stroke="#1c1c26" strokeWidth="0.5" />;
+        return <line key={deg} x1={Math.cos(a) * 118} y1={Math.sin(a) * 118} x2={Math.cos(a) * 192} y2={Math.sin(a) * 192} stroke="#1c1c26" strokeWidth="0.5" />;
       })}
 
       {/* Inner compass rose — very slow CW */}
       <motion.g animate={{ rotate: 360 }} transition={{ duration: 150, repeat: Infinity, ease: "linear" }}>
         {[0, 90, 180, 270].map((deg) => {
           const a = (deg * Math.PI) / 180;
-          const tip = 50, base = 18, hw = 4;
+          const tip = 135, base = 118, hw = 4;
           const tx = Math.cos(a) * tip, ty = Math.sin(a) * tip;
           const lx = Math.cos(a - Math.PI / 2) * hw, ly = Math.sin(a - Math.PI / 2) * hw;
           const rx = -lx, ry = -ly;
           const bx = Math.cos(a) * base, by = Math.sin(a) * base;
           return <path key={deg}
             d={`M ${lx} ${ly} Q ${bx + lx * 0.4} ${by + ly * 0.4} ${tx} ${ty} Q ${bx + rx * 0.4} ${by + ry * 0.4} ${rx} ${ry} Z`}
-            fill="none" stroke="#30304020" strokeWidth="0.7" />;
-        })}
-        {[45, 135, 225, 315].map((deg) => {
-          const a = (deg * Math.PI) / 180;
-          return <line key={deg} x1={Math.cos(a) * 10} y1={Math.sin(a) * 10} x2={Math.cos(a) * 46} y2={Math.sin(a) * 46} stroke="#28283630" strokeWidth="0.5" />;
+            fill="none" stroke="#30304030" strokeWidth="0.7" />;
         })}
       </motion.g>
 
-      {/* Center jewel */}
-      <circle r="10" fill="none" stroke="#353548" strokeWidth="0.8" />
-      <circle r="5" fill="#1e1e2a" stroke="#3a3a50" strokeWidth="0.6" />
-      <circle r="2" fill="#2e2e40" />
+      {/* Embedded Central Portrait Medallion (Large Scale) */}
+      <g>
+        <circle r="118" fill="#0a0a0c" stroke="#3a3a4a" strokeWidth="1.5" />
+        <image
+          href={meImg}
+          x="-115"
+          y="-115"
+          width="230"
+          height="230"
+          clipPath="url(#hero-avatar-clip)"
+          preserveAspectRatio="xMidYMin slice"
+          opacity="0.94"
+        />
+        {/* Dark metallic vignette overlay */}
+        <circle r="115" fill="url(#h-nebula-core)" opacity="0.1" />
+        <circle r="115" fill="none" stroke="#5a5a6c" strokeWidth="1.2" opacity="0.85" />
+        <circle r="118" fill="none" stroke="#2a2a38" strokeWidth="0.6" />
+      </g>
     </svg>
   );
 }
@@ -145,10 +157,10 @@ export function Hero() {
       </div>
 
       {/* Content grid */}
-      <div className="relative z-10 w-full max-w-7xl px-6 md:px-16 grid grid-cols-1 lg:grid-cols-[1fr_1px_1fr] items-center h-full py-16 md:py-24 lg:py-12">
+      <div className="relative z-10 w-full max-w-[1700px] mx-auto px-6 md:px-12 lg:px-16 grid grid-cols-1 lg:grid-cols-[1fr_auto_1.1fr] items-center h-full py-12 md:py-20 lg:py-8 gap-8 lg:gap-0">
 
         {/* Left — Identity */}
-        <div className="flex flex-col justify-center space-y-4 md:space-y-6 lg:pr-16">
+        <div className="flex flex-col justify-center space-y-4 md:space-y-6 lg:pr-12">
           <motion.p
             initial={{ opacity: 0, x: -12 }}
             animate={{ opacity: 1, x: 0 }}
@@ -222,17 +234,17 @@ export function Hero() {
         </div>
 
         {/* Vertical divider */}
-        <div className="hidden lg:block w-px h-2/3 self-center bg-gradient-to-b from-transparent via-[#1e1e24] to-transparent" />
+        <div className="hidden lg:block w-px h-2/3 self-center bg-gradient-to-b from-transparent via-[#1e1e24] to-transparent mx-6" />
 
-        {/* Right — Cosmic art */}
-        <div className="absolute lg:relative inset-0 lg:inset-auto z-0 lg:z-10 flex items-center justify-center lg:pl-16 h-full opacity-[0.18] lg:opacity-100 pointer-events-none lg:pointer-events-auto">
+        {/* Right — Cosmic Emblem with Central Medallion */}
+        <div className="flex items-center justify-center h-full py-4 lg:py-0">
           <motion.div
             initial={{ opacity: 0, scale: 0.9, rotate: -5 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{ duration: 2.5, ease: "easeOut", delay: 0.4 }}
-            className="relative w-[80vw] max-w-[400px] lg:w-full lg:max-w-[440px] aspect-square"
+            className="relative w-[85vw] max-w-[400px] sm:max-w-[460px] lg:w-[500px] lg:max-w-[540px] xl:w-[580px] xl:max-w-[620px] aspect-square flex items-center justify-center shrink-0"
           >
-            <CosmicRune className="absolute inset-0 w-full h-full" />
+            <CosmicRune className="w-full h-full" />
           </motion.div>
         </div>
       </div>

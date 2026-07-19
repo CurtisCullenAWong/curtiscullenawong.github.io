@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowUpRight, Diamond, ShieldCheck, ExternalLink, Globe } from "lucide-react";
+import { ArrowUpRight, Diamond, ShieldCheck, ExternalLink, Globe, Lock } from "lucide-react";
 
 import { projects } from "../../data/portfolioData";
 
@@ -66,6 +66,7 @@ export function ProjectLogs() {
           {projects.map((project, idx) => {
             const isSelected = selectedIndex === idx;
             const hasLiveUrl = project.url && project.url.startsWith("http");
+            const isConfidential = project.status === "Confidential" || (project as any).isConfidential;
 
             return (
               <div
@@ -107,9 +108,14 @@ export function ProjectLogs() {
                         )}
                       </div>
                       <div className="flex items-center gap-2 shrink-0">
-                        <span className={`font-['Inter',sans-serif] text-xs tracking-wider uppercase ${
-                          project.status === "In Progress" ? "text-[#a1a1aa]" : "text-[#6a6a75]"
+                        <span className={`font-['Inter',sans-serif] tracking-wider uppercase ${
+                          isConfidential
+                            ? "text-[#8a8a93] bg-[#14141a] border border-[#252532] px-2 py-0.5 rounded-sm flex items-center gap-1.5 font-normal text-[10px]"
+                            : project.status === "In Progress"
+                            ? "text-[#a1a1aa] text-xs"
+                            : "text-[#6a6a75] text-xs"
                         }`}>
+                          {isConfidential && <Lock size={10} className="text-[#71717a]" />}
                           {project.status}
                         </span>
                         <ArrowUpRight
@@ -187,18 +193,26 @@ export function ProjectLogs() {
                   <div
                     onClick={() => handleProjectClick(activeProject.url)}
                     className="flex-1 h-7 bg-[#0a0a0d] border border-[#22222c] mx-2 flex items-center px-3 justify-between rounded text-xs text-[#a1a1aa] font-['Inter',sans-serif] truncate cursor-pointer hover:border-[#333342] transition-colors"
-                    title="Click to open page"
+                    title={activeProject.status === "Confidential" || (activeProject as any).isConfidential ? "Confidential Project" : "Click to open page"}
                   >
                     <div className="flex items-center gap-2 truncate">
-                      <Globe size={12} className="text-[#8e8e9a] shrink-0" />
+                      {activeProject.status === "Confidential" || (activeProject as any).isConfidential ? (
+                        <Lock size={12} className="text-[#71717a] shrink-0" />
+                      ) : (
+                        <Globe size={12} className="text-[#8e8e9a] shrink-0" />
+                      )}
                       <span className="truncate">
-                        {activeProject.url && activeProject.url.startsWith("http")
+                        {activeProject.status === "Confidential" || (activeProject as any).isConfidential
+                          ? "https://internal.confidential/repository-restricted"
+                          : activeProject.url && activeProject.url.startsWith("http")
                           ? activeProject.url
                           : `https://curtiscullenawong.github.io/${activeProject.title.toLowerCase().replace(/\s/g, "-")}`}
                       </span>
                     </div>
-                    <span className="text-[10px] text-[#5a5a68] uppercase tracking-wider shrink-0 ml-2">
-                      GitHub Pages
+                    <span className="text-[10px] text-[#6a6a75] uppercase tracking-wider shrink-0 ml-2">
+                      {activeProject.status === "Confidential" || (activeProject as any).isConfidential
+                        ? "Confidential"
+                        : "GitHub Pages"}
                     </span>
                   </div>
 
@@ -239,11 +253,21 @@ export function ProjectLogs() {
                       />
                     </div>
                   ) : activeProject.preview ? (
-                    <img
-                      src={activeProject.preview}
-                      alt={`${activeProject.title} website preview`}
-                      className="w-full h-full object-cover opacity-70 grayscale-[0.1]"
-                    />
+                    <div className="w-full h-full relative">
+                      <img
+                        src={activeProject.preview}
+                        alt={`${activeProject.title} website preview`}
+                        className="w-full h-full object-cover opacity-70 grayscale-[0.1]"
+                      />
+                      {(activeProject.status === "Confidential" || (activeProject as any).isConfidential) && (
+                        <div className="absolute top-4 right-4 bg-[#0a0a0c]/90 border border-[#252530] px-3 py-1.5 rounded flex items-center gap-2 backdrop-blur-md shadow-lg z-20">
+                          <Lock size={12} className="text-[#71717a]" />
+                          <span className="font-['Inter',sans-serif] text-xs text-[#8a8a93] tracking-wider uppercase">
+                            Confidential Project
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center bg-[#0c0c0f] text-[#5a5a65] gap-2 p-4 text-center">
                       <Globe size={32} className="text-[#3a3a48]" />

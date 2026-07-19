@@ -5,16 +5,16 @@ import { Github, Linkedin, Mail, Phone, FileText } from "lucide-react";
 // ==========================================
 
 export const ATTRIBUTES = [
-  { label: "Frontend Mastery", value: 92, glyph: "I" },
-  { label: "Backend Design", value: 78, glyph: "II" },
-  { label: "Mobile Craft", value: 72, glyph: "III" },
-  { label: "UI / UX Sensibility", value: 86, glyph: "IV" },
-  { label: "Agentic AI", value: 68, glyph: "V" },
+  { label: "Frontend Engineering", value: 92, glyph: "I" },
+  { label: "Backend Systems & APIs", value: 90, glyph: "II" },
+  { label: "Mobile Development", value: 85, glyph: "III" },
+  { label: "UI / UX & System Design", value: 88, glyph: "IV" },
+  { label: "Agentic AI & Cloud", value: 82, glyph: "V" },
 ];
 
 export const VITALS = [
   { label: "Years Active", value: "5+" },
-  { label: "Projects Shipped", value: "8+" },
+  { label: "Launched", value: "8+" },
   { label: "Technologies", value: "20+" },
   { label: "Origin", value: "Parañaque" },
 ];
@@ -30,7 +30,7 @@ export const TIMELINE = [
     year: "2022 — 2026",
     title: "BS Information Technology",
     org: "National University – Mall of Asia",
-    note: "Mobile & Web Applications · Magna Cum Laude · Dean's Lister",
+    note: "Specialization in Mobile and Web Applications · Magna Cum Laude · Dean's Lister",
   },
   {
     year: "2016 — 2022",
@@ -55,13 +55,13 @@ export const PROJECTS_CONFIDENTIALITY_NOTICE =
 
 export const projects = [
   {
-    title: "Vista AIMS",
-    subtitle: "Asset & Inventory Management System",
-    description: "Developed a cross-platform app for real-time inventory management of assets and consumables, built during the Boss Cargo Express internship.",
-    tags: ["React Native", "Expo", "Supabase"],
+    title: "BCE Corporate Website",
+    subtitle: "Full-Stack Web App & ATS",
+    description: "Engineered a real-time corporate web app and ATS featuring interactive map components, traffic analytics, and a trained AI chatbot with a self-hosted LLM/cloud fallback and custom TTS voice integration.",
+    tags: ["Next.js", "Supabase", "Ollama", "Kokoro TTS"],
     status: "Shipped",
-    url: "https://curtiscullenawong.github.io/asset-consumable-inventory/",
-    liveUrl: "https://curtiscullenawong.github.io/asset-consumable-inventory/",
+    url: "https://bosscargo.vercel.app/",
+    liveUrl: "https://bosscargo.vercel.app/",
   },
   {
     title: "Rate Matrix",
@@ -73,20 +73,21 @@ export const projects = [
     liveUrl: "https://curtiscullenawong.github.io/ratrix-remake/",
   },
   {
-    title: "BCE Corporate Website",
-    subtitle: "Full-Stack Web App & ATS",
-    description: "Engineered a real-time corporate web app and ATS featuring interactive map components, traffic analytics, and a trained AI chatbot with LLM/cloud fallback and custom TTS voice integration.",
-    tags: ["Next.js", "Supabase", "Ollama", "Kokoro TTS"],
+    title: "Vista AIMS",
+    subtitle: "Asset & Inventory Management System",
+    description: "Developed a cross-platform app for real-time inventory management of assets and consumables, built during the Boss Cargo Express internship.",
+    tags: ["React Native", "Expo", "Supabase"],
     status: "Shipped",
-    url: "https://bosscargo.vercel.app/",
-    liveUrl: "https://bosscargo.vercel.app/",
+    url: "https://curtiscullenawong.github.io/asset-consumable-inventory/",
+    liveUrl: "https://curtiscullenawong.github.io/asset-consumable-inventory/",
   },
   {
     title: "EasyTrack",
     subtitle: "Real-Time Delivery & Booking App",
     description: "Led development of a mobile and web application for real-time messaging, delivery tracking, luggage booking, and AI analytics — built for EGC-GHE and AirAsia as a thesis project.",
     tags: ["React Native", "Flutter", "Supabase", "Google Cloud"],
-    status: "Shipped",
+    status: "Confidential",
+    isConfidential: true,
     url: "#",
     preview: "https://images.unsplash.com/photo-1429305336325-b84ace7eba3b?w=1200&h=800&fit=crop&auto=format",
   },
@@ -100,15 +101,6 @@ export const projects = [
     liveUrl: "https://curtiscullenawong.github.io/Still_Cafe_POS/",
   },
   {
-    title: "GeoDetect",
-    subtitle: "AI Geographical Analysis App",
-    description: "Developed a cross-platform mobile application providing in-depth, structured AI analysis of a user's current geographical coordinates.",
-    tags: ["Flutter", "Google Maps API"],
-    status: "Shipped",
-    url: "#",
-    preview: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=1200&h=800&fit=crop&auto=format",
-  },
-  {
     title: "Detailed Spotify Playlists",
     subtitle: "Power-User Music Library Manager",
     description: "A personal, power-user workspace to organize, sort, group, and clean up your Spotify music library. Analyzes song metadata and audio features to help users restructure their library.",
@@ -120,12 +112,21 @@ export const projects = [
   {
     title: "Computer Toolkit",
     subtitle: "Windows Utility Desktop App",
-    description: "Orchestrated a desktop app meant to simplify useful system tasks and provide tools for Windows.",
+    description: "Engineered a lightweight desktop utility app to streamline Windows system maintenance, performance diagnostics, and administrative workflows.",
     tags: ["React", "Tauri", "Rust"],
     status: "Shipped",
     url: "https://curtiscullenawong.github.io/computer-toolkit/",
     liveUrl: "https://curtiscullenawong.github.io/computer-toolkit/",
   },
+  {
+    title: "GeoDetect",
+    subtitle: "AI Geographical Analysis App",
+    description: "Developed a cross-platform mobile application providing in-depth, structured AI analysis of a user's current geographical coordinates.",
+    tags: ["Flutter", "Google Maps API"],
+    status: "Unreleased",
+    url: "#",
+    preview: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=1200&h=800&fit=crop&auto=format",
+  }
 ];
 
 // ==========================================
@@ -268,18 +269,31 @@ export const DEEDS = [
   },
 ];
 
+import resumePdf from "../../assets/Curtis_Cullen_Wong_Resume.pdf";
+import cvPdf from "../../assets/Curtis_Cullen_Wong_CV.pdf";
+
 export const TOMES = [
   {
     name: "Professional Resume",
-    type: "Curriculum Vitae",
-    desc: "A comprehensive document outlining work history, technical stack, and education details.",
-    url: "#",
+    type: "Resume (PDF)",
+    desc: "A concise document outlining work experience, technical stack, software projects, and key achievements.",
+    url: resumePdf,
+    pdfUrl: resumePdf,
     icon: <FileText size={18} className="text-[#9a9aa8]" />,
-    action: "Open Resume (PDF)"
+    action: "Preview Resume"
+  },
+  {
+    name: "Curriculum Vitae (CV)",
+    type: "Academic & Full CV (PDF)",
+    desc: "A detailed curriculum vitae detailing educational history, academic distinctions (Magna Cum Laude), and technical background.",
+    url: cvPdf,
+    pdfUrl: cvPdf,
+    icon: <FileText size={18} className="text-[#9a9aa8]" />,
+    action: "Preview CV"
   },
   {
     name: "Portfolio Source Code",
-    type: "Repository",
+    type: "GitHub Repository",
     desc: "Inspect the layout files, styling configurations, and animations that constitute this portfolio website.",
     url: "https://github.com/CurtisCullenAWong/my-portfolio",
     icon: <Github size={18} className="text-[#9a9aa8]" />,

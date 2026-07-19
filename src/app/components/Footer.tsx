@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Copy, Check } from "lucide-react";
+import { Copy, Check, Eye, Download, ExternalLink, X, FileText } from "lucide-react";
 import { DEEDS, TOMES } from "../../data/portfolioData";
 
 type Tab = "lore" | "deeds" | "codex" | "quest";
@@ -8,6 +8,7 @@ type Tab = "lore" | "deeds" | "codex" | "quest";
 export function Footer() {
   const [activeTab, setActiveTab] = useState<Tab>("lore");
   const [copiedItem, setCopiedItem] = useState<string | null>(null);
+  const [previewPdf, setPreviewPdf] = useState<{ title: string; url: string } | null>(null);
   // const [formStatus, setFormStatus] = useState<"idle" | "sending" | "sent">("idle");
 
   const handleCopy = (text: string, key: string) => {
@@ -225,24 +226,46 @@ export function Footer() {
                           key={i}
                           className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 border border-[#1c1c22] bg-[#0c0c0e]/30 hover:bg-[#121217] hover:border-[#3a3a46] transition-all duration-300"
                         >
-                          <div className="flex items-start gap-4">
+                          <div className="flex items-start gap-4 flex-1 min-w-0">
                             <div className="w-9 h-9 border border-[#222] flex items-center justify-center bg-[#111214] shrink-0">
                               {tome.icon}
                             </div>
-                            <div>
-                              <h4 className="font-['Cinzel',serif] text-xs tracking-wider text-[#d8d6d3]">{tome.name}</h4>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-['Cinzel',serif] text-xs tracking-wider text-[#d8d6d3] truncate">{tome.name}</h4>
                               <p className="font-['Inter',sans-serif] text-[7.5px] tracking-widest text-[#5a5a62] uppercase leading-none mt-1">{tome.type}</p>
                               <p className="font-['Inter',sans-serif] text-[10.5px] text-[#8a8a93] leading-relaxed mt-2 font-light">{tome.desc}</p>
                             </div>
                           </div>
-                          <a
-                            href={tome.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-['Inter',sans-serif] text-[8.5px] tracking-[0.2em] uppercase py-2 px-3.5 border border-[#333] text-[#e8e6e3] hover:bg-[#e8e6e3] hover:text-[#0a0a0c] transition-colors text-center shrink-0 cursor-pointer bg-[#0c0c0e]/30"
-                          >
-                            {tome.action}
-                          </a>
+
+                          {(tome as any).pdfUrl ? (
+                            <div className="flex items-center gap-2 shrink-0">
+                              <button
+                                onClick={() => setPreviewPdf({ title: tome.name, url: (tome as any).pdfUrl })}
+                                className="font-['Inter',sans-serif] text-[8.5px] tracking-[0.2em] uppercase py-2 px-3 border border-[#3a3a48] text-[#e8e6e3] hover:bg-[#e8e6e3] hover:text-[#0a0a0c] transition-colors text-center shrink-0 cursor-pointer bg-[#0c0c0e]/30 flex items-center gap-1.5"
+                              >
+                                <Eye size={12} />
+                                Preview
+                              </button>
+                              <a
+                                href={(tome as any).pdfUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="font-['Inter',sans-serif] text-[8.5px] tracking-[0.2em] uppercase p-2 border border-[#252530] text-[#8a8a93] hover:text-[#e8e6e3] hover:border-[#4b5563] transition-colors shrink-0 cursor-pointer bg-[#0c0c0e]/30"
+                                title="Open in new tab"
+                              >
+                                <ExternalLink size={12} />
+                              </a>
+                            </div>
+                          ) : (
+                            <a
+                              href={tome.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="font-['Inter',sans-serif] text-[8.5px] tracking-[0.2em] uppercase py-2 px-3.5 border border-[#333] text-[#e8e6e3] hover:bg-[#e8e6e3] hover:text-[#0a0a0c] transition-colors text-center shrink-0 cursor-pointer bg-[#0c0c0e]/30"
+                            >
+                              {tome.action}
+                            </a>
+                          )}
                         </div>
                       ))}
                     </div>
@@ -250,89 +273,6 @@ export function Footer() {
                 </div>
               )}
 
-              {/* Quest Tab (Form) */}
-              {/* {activeTab === "quest" && (
-                <div className="flex-1 flex flex-col justify-between">
-                  {formStatus !== "sent" ? (
-                    <form className="flex flex-col gap-5 flex-1 justify-between" onSubmit={handleSubmit}>
-                      <div className="space-y-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-2 h-2 bg-[#4b5563] rotate-45" />
-                          <h3 className="font-['Cinzel',serif] text-[10px] tracking-[0.3em] uppercase text-[#6e6e78]">Project Inquiry Details</h3>
-                        </div>
-
-                        <div className="flex flex-col gap-2">
-                          <label htmlFor="name" className="font-['Cinzel',serif] text-[8px] text-[#71717a] uppercase tracking-widest leading-none">
-                            Your Name / Organization
-                          </label>
-                          <input
-                            type="text"
-                            id="name"
-                            required
-                            disabled={formStatus !== "idle"}
-                            className="bg-transparent border-b border-[#222] px-2 py-1 text-[#e8e6e3] font-['Inter',sans-serif] text-sm focus:outline-none focus:border-[#4e4e5b] transition-colors disabled:opacity-50"
-                          />
-                        </div>
-
-                        <div className="flex flex-col gap-2">
-                          <label htmlFor="email" className="font-['Cinzel',serif] text-[8px] text-[#71717a] uppercase tracking-widest leading-none">
-                            Your Email Address
-                          </label>
-                          <input
-                            type="email"
-                            id="email"
-                            required
-                            disabled={formStatus !== "idle"}
-                            className="bg-transparent border-b border-[#222] px-2 py-1 text-[#e8e6e3] font-['Inter',sans-serif] text-sm focus:outline-none focus:border-[#4e4e5b] transition-colors disabled:opacity-50"
-                          />
-                        </div>
-
-                        <div className="flex flex-col gap-2">
-                          <label htmlFor="message" className="font-['Cinzel',serif] text-[8px] text-[#71717a] uppercase tracking-widest leading-none">
-                            Project Details / Message
-                          </label>
-                          <textarea
-                            id="message"
-                            rows={3}
-                            required
-                            disabled={formStatus !== "idle"}
-                            className="bg-transparent border-b border-[#222] px-2 py-1 text-[#e8e6e3] font-['Inter',sans-serif] text-sm focus:outline-none focus:border-[#4e4e5b] transition-colors resize-none disabled:opacity-50"
-                          ></textarea>
-                        </div>
-                      </div>
-
-                      <button
-                        type="submit"
-                        disabled={formStatus !== "idle"}
-                        className="mt-4 font-['Inter',sans-serif] text-[9px] tracking-[0.2em] uppercase py-2.5 px-6 border border-[#3a3a46] text-[#e8e6e3] hover:bg-[#e8e6e3] hover:text-[#0a0a0c] transition-all duration-300 self-start disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer bg-[#0c0c0e]/30"
-                      >
-                        {formStatus === "idle" && "Send Inquiry"}
-                        {formStatus === "sending" && "Sending..."}
-                      </button>
-                    </form>
-                  ) : (
-                    <div className="flex-1 flex flex-col items-center justify-center text-center gap-4 py-8">
-                      <div className="w-12 h-12 border border-[#4e4e5b] rotate-45 flex items-center justify-center text-[#e8e6e3]">
-                        <div className="-rotate-45 font-['Cinzel',serif] text-xs font-semibold">OK</div>
-                      </div>
-                      <div className="space-y-1">
-                        <h3 className="font-['Cinzel',serif] text-sm tracking-[0.25em] text-[#e8e6e3] uppercase">Message Sent</h3>
-                        <p className="font-['Inter',sans-serif] text-[9px] tracking-widest text-[#5c5c66] uppercase">Sent Successfully</p>
-                      </div>
-                      <div className="h-[1px] w-12 bg-[#252530]" />
-                      <p className="font-['Inter',sans-serif] text-xs text-[#8a8a93] leading-relaxed max-w-xs font-light">
-                        Your message has been received and sent directly to Curtis. You should receive a reply at your email address shortly.
-                      </p>
-                      <button
-                        onClick={() => setFormStatus("idle")}
-                        className="mt-2 font-['Inter',sans-serif] text-[8.5px] tracking-[0.25em] uppercase py-2 px-4 border border-[#333] text-[#8a8a93] hover:bg-[#e8e6e3] hover:text-[#0a0a0c] transition-colors cursor-pointer"
-                      >
-                        Send Another Inquiry
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )} */}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -357,6 +297,67 @@ export function Footer() {
       <div className="mt-4 text-center text-[#404046] font-['Inter',sans-serif] text-[10px] uppercase tracking-widest shrink-0 relative z-10">
         <p>&copy; {new Date().getFullYear()} Curtis C. A. Wong. All rights reserved.</p>
       </div>
+
+      {/* PDF Inline Preview Modal */}
+      <AnimatePresence>
+        {previewPdf && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-[#0a0a0c]/85 backdrop-blur-md">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="relative w-full max-w-5xl h-[85vh] flex flex-col bg-[#0c0c0f] border border-[#252532] rounded-md shadow-2xl overflow-hidden"
+            >
+              {/* Modal Header Bar */}
+              <div className="flex items-center justify-between px-5 py-3.5 bg-[#121216] border-b border-[#1e1e26] shrink-0">
+                <div className="flex items-center gap-3 min-w-0">
+                  <FileText size={16} className="text-[#8a8a93] shrink-0" />
+                  <h3 className="font-['Cinzel',serif] text-sm md:text-base text-[#e8e6e3] tracking-wide truncate">
+                    {previewPdf.title}
+                  </h3>
+                </div>
+
+                <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                  <a
+                    href={previewPdf.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 font-['Inter',sans-serif] text-[11px] text-[#8a8a93] hover:text-[#e8e6e3] uppercase tracking-wider px-2.5 py-1 border border-[#252530] rounded-sm hover:border-[#3a3a48] transition-colors"
+                  >
+                    <ExternalLink size={12} />
+                    <span className="hidden sm:inline">Open New Tab</span>
+                  </a>
+                  <a
+                    href={previewPdf.url}
+                    download
+                    className="flex items-center gap-1.5 font-['Inter',sans-serif] text-[11px] text-[#8a8a93] hover:text-[#e8e6e3] uppercase tracking-wider px-2.5 py-1 border border-[#252530] rounded-sm hover:border-[#3a3a48] transition-colors"
+                  >
+                    <Download size={12} />
+                    <span className="hidden sm:inline">Download</span>
+                  </a>
+                  <button
+                    onClick={() => setPreviewPdf(null)}
+                    className="p-1 text-[#71717a] hover:text-white transition-colors cursor-pointer ml-1"
+                    title="Close Preview"
+                  >
+                    <X size={20} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Modal PDF Viewport Body */}
+              <div className="flex-1 w-full h-full bg-[#0a0a0c] relative">
+                <iframe
+                  src={previewPdf.url}
+                  title={previewPdf.title}
+                  className="w-full h-full border-0 bg-[#0a0a0c]"
+                />
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </footer>
   );
 }
