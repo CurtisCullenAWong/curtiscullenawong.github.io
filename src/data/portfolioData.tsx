@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, Phone, FileText } from "lucide-react";
+import { Github, Linkedin, Mail, Phone, FileText, Globe, Smartphone, Cpu, Sparkles } from "lucide-react";
 
 // ==========================================
 // ABOUT COMPONENT DATA
@@ -300,3 +300,42 @@ export const TOMES = [
     action: "View on GitHub"
   }
 ];
+
+export const FREELANCE_SERVICES = {
+  developer: {
+    name: "Curtis Cullen A. Wong",
+    role: "Full-Stack Developer & Project Manager",
+    location: "Parañaque City, PH",
+    phone: "(+63) 999-488-5479",
+    email: "curtiscullenagustinwong@gmail.com",
+    github: "github.com/CurtisCullenAWong",
+    summary: "Detail-oriented developer bridging complex technical requirements and user-friendly software outcomes. Delivering clean code, cross-platform apps, and efficient project workflows."
+  },
+  services: [
+    {
+      title: "Web App Development",
+      icon: <Globe size={18} className="text-[#9a9aa8]" />,
+      desc: "Custom web applications, admin portals, e-commerce platforms, and fast responsive websites.",
+      stack: ["Next.js", "React.js", "TypeScript", "Tailwind CSS", "Laravel", "Supabase"]
+    },
+    {
+      title: "Mobile App Development",
+      icon: <Smartphone size={18} className="text-[#9a9aa8]" />,
+      desc: "Cross-platform mobile applications with real-time sync, offline databases, and GPS tracking.",
+      stack: ["React Native", "Expo", "Flutter", "SQLite", "Google Cloud", "Firebase"]
+    },
+    {
+      title: "Desktop Applications",
+      icon: <Cpu size={18} className="text-[#9a9aa8]" />,
+      desc: "Lightweight, secure desktop software and administrative tools for system workflows.",
+      stack: ["Tauri", "Rust", "React.js", "Node.js"]
+    },
+    {
+      title: "AI & Backend Architecture",
+      icon: <Sparkles size={18} className="text-[#9a9aa8]" />,
+      desc: "AI chatbot integrations, voice synthesis (TTS), REST/GraphQL APIs, and database engineering.",
+      stack: ["Ollama AI", "Kokoro TTS", "Python", "MongoDB", "MySQL", "Docker"]
+    }
+  ]
+};
+
