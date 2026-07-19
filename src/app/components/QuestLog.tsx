@@ -4,8 +4,40 @@ import { ArrowUpRight, Diamond, ShieldCheck, ExternalLink, Globe, Lock } from "l
 
 import { projects } from "../../data/portfolioData";
 
+interface ProjectIframeProps {
+  url: string;
+  title: string;
+  isSelected: boolean;
+  onLoad: () => void;
+}
+
+function ProjectIframe({ url, title, isSelected, onLoad }: ProjectIframeProps) {
+  const [rendered, setRendered] = useState(false);
+
+  useEffect(() => {
+    if (isSelected && !rendered) {
+      setRendered(true);
+    }
+  }, [isSelected, rendered]);
+
+  if (!rendered) return null;
+
+  return (
+    <iframe
+      src={url}
+      title={`${title} Live Preview`}
+      onLoad={onLoad}
+      className="w-full h-full border-0 bg-white"
+      allow="fullscreen"
+      loading="lazy"
+      style={{ display: isSelected ? "block" : "none" }}
+    />
+  );
+}
+
 export function ProjectLogs() {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const [loadedIframes, setLoadedIframes] = useState<Record<string, boolean>>({});
 
   const activeProject = projects[selectedIndex] ?? projects[0];
@@ -16,9 +48,23 @@ export function ProjectLogs() {
     }
   };
 
+  const handleSelect = (idx: number) => {
+    setSelectedIndex(idx);
+    setHoveredIdx(idx);
+  };
+
   const handleIframeLoad = (title: string) => {
     setLoadedIframes((prev) => ({ ...prev, [title]: true }));
   };
+
+  // Debounce hover selection to prevent rapid iframe mounting/unmounting
+  useEffect(() => {
+    if (hoveredIdx === null) return;
+    const timer = setTimeout(() => {
+      setSelectedIndex(hoveredIdx);
+    }, 80);
+    return () => clearTimeout(timer);
+  }, [hoveredIdx]);
 
   // Fallback timer so loading indicator never stays stuck if browser postpones iframe onLoad
   useEffect(() => {
@@ -71,8 +117,8 @@ export function ProjectLogs() {
             return (
               <div
                 key={idx}
-                onMouseEnter={() => setSelectedIndex(idx)}
-                onClick={() => handleProjectClick(project.url)}
+                onMouseEnter={() => setHoveredIdx(idx)}
+                onClick={() => handleSelect(idx)}
                 className={`relative group cursor-pointer border-b border-[#131316] px-6 md:px-8 py-5 transition-colors duration-200 ${
                   isSelected ? "bg-[#141418]" : "hover:bg-[#0d0d10]"
                 }`}
@@ -118,12 +164,30 @@ export function ProjectLogs() {
                           {isConfidential && <Lock size={10} className="text-[#71717a]" />}
                           {project.status}
                         </span>
-                        <ArrowUpRight
-                          size={14}
-                          className={`transition-transform duration-200 ${
-                            isSelected ? "text-[#c8c6c3] translate-x-0.5 -translate-y-0.5" : "text-[#3a3a46]"
-                          }`}
-                        />
+                        {hasLiveUrl ? (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleProjectClick(project.url);
+                            }}
+                            className="p-1 hover:bg-[#252530] rounded transition-colors cursor-pointer text-[#8a8a93] hover:text-[#e8e6e3] flex items-center justify-center"
+                            title="Open live site"
+                          >
+                            <ArrowUpRight
+                              size={14}
+                              className={`transition-transform duration-200 ${
+                                isSelected ? "text-[#c8c6c3] translate-x-0.5 -translate-y-0.5" : "text-[#3a3a46]"
+                              }`}
+                            />
+                          </button>
+                        ) : (
+                          <ArrowUpRight
+                            size={14}
+                            className={`transition-transform duration-200 ${
+                              isSelected ? "text-[#c8c6c3] translate-x-0.5 -translate-y-0.5" : "text-[#3a3a46]"
+                            }`}
+                          />
+                        )}
                       </div>
                     </div>
 
@@ -136,6 +200,22 @@ export function ProjectLogs() {
                     }`}>
                       {project.description}
                     </p>
+
+                    {isSelected && project.url && project.url !== "#" && (
+                      <div className="mt-2.5 flex items-center gap-3 lg:hidden">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleProjectClick(project.url);
+                          }}
+                          className="inline-flex items-center gap-1.5 text-xs text-[#e8e6e3] hover:underline bg-[#1d1d22] border border-[#2a2a35] py-1 px-2.5 rounded-sm cursor-pointer"
+                        >
+                          <Globe size={11} />
+                          Visit Website
+                          <ArrowUpRight size={11} />
+                        </button>
+                      </div>
+                    )}
 
                     <div className="flex flex-wrap gap-x-2.5 gap-y-1 mt-2.5 items-center">
                       {project.tags.map((tag, tIdx) => (
@@ -174,6 +254,7 @@ export function ProjectLogs() {
                   src={activeProject.preview}
                   alt={`${activeProject.title} background`}
                   className="absolute inset-0 w-full h-full object-cover opacity-20 filter blur-xl grayscale"
+                  loading="lazy"
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-[#080809] via-[#080809]/80 to-[#080809]/60" />
@@ -244,13 +325,19 @@ export function ProjectLogs() {
                           </span>
                         </div>
                       )}
-                      <iframe
-                        src={activeProject.url}
-                        title={`${activeProject.title} Live Preview`}
-                        onLoad={() => handleIframeLoad(activeProject.title)}
-                        className="w-full h-full border-0 bg-white"
-                        allow="fullscreen"
-                      />
+                      {projects.map((project, idx) => {
+                        const isIframe = project.url && project.url.startsWith("http");
+                        if (!isIframe) return null;
+                        return (
+                          <ProjectIframe
+                            key={project.title}
+                            url={project.url}
+                            title={project.title}
+                            isSelected={selectedIndex === idx}
+                            onLoad={() => handleIframeLoad(project.title)}
+                          />
+                        );
+                      })}
                     </div>
                   ) : activeProject.preview ? (
                     <div className="w-full h-full relative">
@@ -258,6 +345,7 @@ export function ProjectLogs() {
                         src={activeProject.preview}
                         alt={`${activeProject.title} website preview`}
                         className="w-full h-full object-cover opacity-70 grayscale-[0.1]"
+                        loading="lazy"
                       />
                       {(activeProject.status === "Confidential" || (activeProject as any).isConfidential) && (
                         <div className="absolute top-4 right-4 bg-[#0a0a0c]/90 border border-[#252530] px-3 py-1.5 rounded flex items-center gap-2 backdrop-blur-md shadow-lg z-20">
