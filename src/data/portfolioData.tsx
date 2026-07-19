@@ -282,7 +282,7 @@ export const TOMES = [
     name: "Portfolio Source Code",
     type: "Repository",
     desc: "Inspect the layout files, styling configurations, and animations that constitute this portfolio website.",
-    url: "https://github.com/CurtisCullenAWong/my-portfolio",
+    url: "https://github.com/CurtisCullenAWong/curtiscullenawong.github.io",
     icon: <Github size={18} className="text-[#9a9aa8]" />,
     action: "View on GitHub"
   }
