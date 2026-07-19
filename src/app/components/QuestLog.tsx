@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpRight, Diamond, ShieldCheck, ExternalLink, Globe } from "lucide-react";
 
@@ -10,11 +10,6 @@ export function ProjectLogs() {
 
   const activeProject = projects[selectedIndex] ?? projects[0];
 
-  // Preload live project URLs in background
-  const preloadedProjects = projects.filter(
-    (p) => p.url && p.url.startsWith("http")
-  );
-
   const handleProjectClick = (url: string) => {
     if (url && url !== "#") {
       window.open(url, "_blank", "noopener,noreferrer");
@@ -25,23 +20,21 @@ export function ProjectLogs() {
     setLoadedIframes((prev) => ({ ...prev, [title]: true }));
   };
 
+  // Fallback timer so loading indicator never stays stuck if browser postpones iframe onLoad
+  useEffect(() => {
+    if (activeProject.url && activeProject.url.startsWith("http")) {
+      const timer = setTimeout(() => {
+        setLoadedIframes((prev) => ({ ...prev, [activeProject.title]: true }));
+      }, 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [activeProject.title, activeProject.url]);
+
   return (
     <section
       id="projects"
       className="relative min-h-dvh lg:h-dvh flex flex-col lg:overflow-hidden border-b border-[#1a1a1e] lg:snap-start"
     >
-      {/* Background iframe preloader */}
-      <div className="hidden pointer-events-none" aria-hidden="true">
-        {preloadedProjects.map((p) => (
-          <iframe
-            key={p.title}
-            src={p.url}
-            title={`Preload ${p.title}`}
-            tabIndex={-1}
-            onLoad={() => handleIframeLoad(p.title)}
-          />
-        ))}
-      </div>
 
       {/* Section header */}
       <div className="shrink-0 flex flex-col md:flex-row md:items-center justify-between gap-4 px-6 md:px-12 pt-7 pb-4 border-b border-[#141418]">
@@ -170,11 +163,13 @@ export function ProjectLogs() {
               className="absolute inset-0 flex flex-col p-6"
             >
               {/* Subtle background glow */}
-              <img
-                src={activeProject.preview}
-                alt={`${activeProject.title} background`}
-                className="absolute inset-0 w-full h-full object-cover opacity-20 filter blur-xl grayscale"
-              />
+              {activeProject.preview && (
+                <img
+                  src={activeProject.preview}
+                  alt={`${activeProject.title} background`}
+                  className="absolute inset-0 w-full h-full object-cover opacity-20 filter blur-xl grayscale"
+                />
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-[#080809] via-[#080809]/80 to-[#080809]/60" />
 
               {/* Browser mockup window */}
@@ -240,15 +235,20 @@ export function ProjectLogs() {
                         title={`${activeProject.title} Live Preview`}
                         onLoad={() => handleIframeLoad(activeProject.title)}
                         className="w-full h-full border-0 bg-white"
-                        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                        allow="fullscreen"
                       />
                     </div>
-                  ) : (
+                  ) : activeProject.preview ? (
                     <img
                       src={activeProject.preview}
                       alt={`${activeProject.title} website preview`}
                       className="w-full h-full object-cover opacity-70 grayscale-[0.1]"
                     />
+                  ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center bg-[#0c0c0f] text-[#5a5a65] gap-2 p-4 text-center">
+                      <Globe size={32} className="text-[#3a3a48]" />
+                      <span className="font-['Inter',sans-serif] text-xs uppercase tracking-wider">Preview Unavailable</span>
+                    </div>
                   )}
 
                   {/* Clean info overlay */}
