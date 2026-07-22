@@ -83,7 +83,7 @@ export function ProjectLogs() {
     >
 
       {/* Section header */}
-      <div className="shrink-0 flex flex-col md:flex-row md:items-center justify-between gap-4 px-6 md:px-12 pt-7 pb-4 border-b border-[#141418]">
+      <div className="shrink-0 flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-12 pt-4 sm:pt-5 md:pt-6 pb-3 md:pb-4 border-b border-[#141418]">
         <div className="flex items-center gap-4">
           <div className="w-3.5 h-3.5 border border-[#3a3a44] rotate-45 flex items-center justify-center shrink-0">
             <div className="w-1 h-1 bg-[#3a3a44] rotate-45" />
@@ -196,7 +196,7 @@ export function ProjectLogs() {
                     </p>
 
                     <p className={`font-['Inter',sans-serif] text-xs md:text-sm text-[#9ca3af] leading-relaxed transition-all duration-300 ${
-                      isSelected ? "max-h-24 opacity-100 mt-2" : "max-h-0 opacity-0 overflow-hidden"
+                      isSelected ? "max-h-24 opacity-100 mt-2 overflow-y-auto scrollbar-thin" : "max-h-0 opacity-0 overflow-hidden"
                     }`}>
                       {project.description}
                     </p>

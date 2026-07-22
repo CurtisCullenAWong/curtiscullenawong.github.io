@@ -41,7 +41,7 @@ Services Offered:
   ] as const;
 
   return (
-    <footer id="contact" className="relative min-h-dvh lg:h-dvh py-6 md:py-8 px-4 md:px-12 flex flex-col items-center justify-between lg:snap-start lg:snap-always shrink-0 select-none overflow-hidden">
+    <footer id="contact" className="relative min-h-dvh lg:h-dvh py-4 sm:py-6 lg:py-4 px-4 md:px-8 xl:px-12 flex flex-col items-center justify-between lg:snap-start lg:snap-always shrink-0 select-none overflow-hidden">
       {/* Night sky background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <img
@@ -77,32 +77,32 @@ Services Offered:
         ))}
       </div>
 
-      <div className="relative z-10 w-full text-center mb-6 md:mb-8 shrink-0">
-        <h2 className="font-['Cinzel',serif] text-xl md:text-2xl text-[#e8e6e3] tracking-widest uppercase mb-1.5">
+      <div className="relative z-10 w-full text-center mb-3 sm:mb-4 lg:mb-3 shrink-0">
+        <h2 className="font-['Cinzel',serif] text-lg sm:text-xl md:text-2xl text-[#e8e6e3] tracking-widest uppercase mb-1">
           Contact Portal
         </h2>
-        <div className="h-[1px] w-12 bg-[#333] mx-auto mb-3"></div>
-        <p className="font-['Inter',sans-serif] text-[#8b8b8b] text-[10px] md:text-xs tracking-wide uppercase">
+        <div className="h-[1px] w-12 bg-[#333] mx-auto mb-1.5 sm:mb-2"></div>
+        <p className="font-['Inter',sans-serif] text-[#8b8b8b] text-[9px] sm:text-[10px] md:text-xs tracking-wide uppercase">
           Connect with the developer.
         </p>
       </div>
 
       {/* Skyrim RPG Interface Grid */}
-      <div className="relative z-10 w-full max-w-5xl grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-6 items-start">
+      <div className="relative z-10 w-full max-w-5xl flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-4 lg:gap-6 items-stretch my-auto overflow-y-auto lg:overflow-hidden">
 
         {/* Left Column — Dialogue Options */}
-        <div className="border border-[#252530] bg-[#0c0c0e]/85 p-5 md:p-6 flex flex-col gap-2 w-full">
-          <div className="font-['Cinzel',serif] text-xs md:text-sm text-[#8a8a93] font-semibold tracking-[0.25em] uppercase mb-2 pb-2 border-b border-[#1c1c22]">
+        <div className="border border-[#252530] bg-[#0c0c0e]/85 p-3.5 sm:p-4 md:p-5 flex flex-col gap-1.5 sm:gap-2 w-full lg:overflow-y-auto scrollbar-hide shrink-0 lg:shrink">
+          <div className="font-['Cinzel',serif] text-[10px] md:text-xs text-[#8a8a93] font-semibold tracking-[0.2em] uppercase mb-1 pb-1.5 border-b border-[#1c1c22] shrink-0">
             Dialogue Choices
           </div>
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-1 sm:gap-1.5">
             {options.map((opt) => {
               const active = activeTab === opt.id;
               return (
                 <button
                   key={opt.id}
                   onClick={() => setActiveTab(opt.id)}
-                  className="flex items-start gap-3 w-full text-left group transition-all duration-300 py-3 px-3.5 border border-transparent hover:border-[#22222a] hover:bg-[#121217]/50 cursor-pointer"
+                  className="flex items-start gap-2.5 sm:gap-3 w-full text-left group transition-all duration-300 py-2 sm:py-2.5 px-3 border border-transparent hover:border-[#22222a] hover:bg-[#121217]/50 cursor-pointer"
                 >
                   <span className={`pt-1 shrink-0 transition-opacity duration-300 ${active ? "opacity-100" : "opacity-0 group-hover:opacity-40"}`}>
                     <div className="w-2.5 h-2.5 rotate-45 bg-[#e8e6e3] flex items-center justify-center">
@@ -110,10 +110,10 @@ Services Offered:
                     </div>
                   </span>
                   <div className="flex-1 min-w-0">
-                    <span className="font-['Cinzel',serif] text-[10px] md:text-[11px] font-semibold tracking-[0.2em] text-[#6e6e78] uppercase mr-2.5">
+                    <span className="font-['Cinzel',serif] text-[9px] sm:text-[10px] md:text-[11px] font-semibold tracking-[0.2em] text-[#6e6e78] uppercase mr-2 sm:mr-2.5">
                       {opt.prefix}
                     </span>
-                    <span className={`font-['Cinzel',serif] text-sm md:text-base tracking-wide transition-colors duration-300 block leading-tight ${active ? "text-[#e8e6e3] font-medium" : "text-[#8a8a93] group-hover:text-[#e8e6e3]"}`}>
+                    <span className={`font-['Cinzel',serif] text-xs sm:text-sm md:text-base tracking-wide transition-colors duration-300 block leading-tight ${active ? "text-[#e8e6e3] font-medium" : "text-[#8a8a93] group-hover:text-[#e8e6e3]"}`}>
                       {opt.text}
                     </span>
                   </div>
@@ -124,7 +124,7 @@ Services Offered:
         </div>
 
         {/* Right Column — Response & Actions (Tabs) */}
-        <div className="border border-[#252530] bg-[#0c0c0e]/85 p-5 md:p-6 w-full flex flex-col gap-4 overflow-y-auto overflow-x-hidden min-h-[300px]">
+        <div className="border border-[#252530] bg-[#0c0c0e]/85 p-3.5 sm:p-4 md:p-5 w-full flex flex-col gap-3 lg:gap-4 overflow-y-auto overflow-x-hidden min-h-0 flex-1 max-h-full">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -153,17 +153,17 @@ Services Offered:
                   </div>
 
                   {/* Developer Stats Card */}
-                  <div className="border border-[#1e1e24] bg-[#0c0c0e]/40 p-4 mt-2">
-                    <h4 className="font-['Cinzel',serif] text-xs font-semibold tracking-[0.25em] text-[#71717a] uppercase mb-3 pb-1.5 border-b border-[#18181f]">Developer Overview</h4>
-                    <div className="grid grid-cols-2 gap-4">
+                  <div className="border border-[#1e1e24] bg-[#0c0c0e]/40 p-3 sm:p-4 mt-1">
+                    <h4 className="font-['Cinzel',serif] text-xs font-semibold tracking-[0.25em] text-[#71717a] uppercase mb-2.5 pb-1 border-b border-[#18181f]">Developer Overview</h4>
+                    <div className="grid grid-cols-2 gap-3 sm:gap-4">
                       {[
                         { label: "Profession", value: "Full-Stack Dev" },
                         { label: "Base", value: "Parañaque, PH" },
                         { label: "Focus Area", value: "AI, Web & Mobile Dev" },
                         { label: "Soft skills", value: "Adaptable, Hardworking, Positive Mindset, Coachability" }
                       ].map((stat) => (
-                        <div key={stat.label} className="flex flex-col gap-1">
-                          <span className="font-['Inter',sans-serif] text-[10px] md:text-[11px] tracking-widest text-[#71717a] uppercase font-medium">{stat.label}</span>
+                        <div key={stat.label} className="flex flex-col gap-0.5">
+                          <span className="font-['Inter',sans-serif] text-[9px] sm:text-[10px] md:text-[11px] tracking-widest text-[#71717a] uppercase font-medium">{stat.label}</span>
                           <span className="font-['Cinzel',serif] text-xs md:text-sm text-[#e8e6e3] tracking-wide leading-snug font-medium">{stat.value}</span>
                         </div>
                       ))}
@@ -179,33 +179,33 @@ Services Offered:
                     <div className="w-2 h-2 bg-[#4b5563] rotate-45" />
                     <h3 className="font-['Cinzel',serif] text-xs md:text-sm font-semibold tracking-[0.3em] uppercase text-[#8a8a93]">Professional Directory</h3>
                   </div>
-                  <div className="space-y-2.5">
+                  <div className="space-y-2">
                     {DEEDS.map((deed, i) => (
-                      <div key={i} className="flex items-start gap-4 p-3.5 border border-[#1c1c22] bg-[#0c0c0e]/30 hover:bg-[#121217] hover:border-[#3a3a46] transition-all duration-300 group">
+                      <div key={i} className="flex items-start gap-3 sm:gap-4 p-3 border border-[#1c1c22] bg-[#0c0c0e]/30 hover:bg-[#121217] hover:border-[#3a3a46] transition-all duration-300 group">
                         <a
                           href={deed.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-9 h-9 border border-[#222] flex items-center justify-center bg-[#111214] shrink-0 group-hover:border-[#4e4e5b] transition-colors"
+                          className="w-8 h-8 border border-[#222] flex items-center justify-center bg-[#111214] shrink-0 group-hover:border-[#4e4e5b] transition-colors"
                         >
                           {deed.icon}
                         </a>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-baseline justify-between gap-2">
                             <a href={deed.url} target="_blank" rel="noopener noreferrer" className="font-['Inter',sans-serif] text-sm md:text-base font-semibold tracking-wider text-[#e8e6e3] group-hover:text-white transition-colors truncate hover:underline underline-offset-2">{deed.name}</a>
-                            <span className="font-['Inter',sans-serif] text-[10px] font-medium tracking-widest text-[#71717a] uppercase shrink-0">{deed.role}</span>
+                            <span className="font-['Inter',sans-serif] text-[9px] sm:text-[10px] font-medium tracking-widest text-[#71717a] uppercase shrink-0">{deed.role}</span>
                           </div>
-                          <p className="font-['Inter',sans-serif] text-xs md:text-sm text-[#a1a1aa] leading-relaxed mt-1 font-light">{deed.desc}</p>
+                          <p className="font-['Inter',sans-serif] text-xs md:text-sm text-[#a1a1aa] leading-relaxed mt-0.5 font-light">{deed.desc}</p>
                         </div>
                         {deed.copyValue && (
                           <button
                             onClick={() => handleCopy(deed.copyValue!, `deed-${i}`)}
                             title="Copy to clipboard"
-                            className="shrink-0 w-8 h-8 border border-[#1c1c22] flex items-center justify-center bg-[#0c0c10] hover:border-[#4e4e5b] hover:bg-[#121217] transition-all duration-200 cursor-pointer"
+                            className="shrink-0 w-7 h-7 border border-[#1c1c22] flex items-center justify-center bg-[#0c0c10] hover:border-[#4e4e5b] hover:bg-[#121217] transition-all duration-200 cursor-pointer"
                           >
                             {copiedItem === `deed-${i}`
-                              ? <Check size={13} className="text-[#6a8a6a]" />
-                              : <Copy size={13} className="text-[#71717a]" />}
+                              ? <Check size={12} className="text-[#6a8a6a]" />
+                              : <Copy size={12} className="text-[#71717a]" />}
                           </button>
                         )}
                       </div>
@@ -221,20 +221,20 @@ Services Offered:
                     <div className="w-2 h-2 bg-[#4b5563] rotate-45" />
                     <h3 className="font-['Cinzel',serif] text-xs md:text-sm font-semibold tracking-[0.3em] uppercase text-[#8a8a93]">Resource Documents</h3>
                   </div>
-                  <div className="space-y-3">
+                  <div className="space-y-2.5">
                     {TOMES.map((tome, i) => (
                       <div
                         key={i}
-                        className="flex flex-col md:flex-row md:items-center justify-between gap-3.5 p-4 border border-[#1c1c22] bg-[#0c0c0e]/30 hover:bg-[#121217] hover:border-[#3a3a46] transition-all duration-300"
+                        className="flex flex-col md:flex-row md:items-center justify-between gap-3 p-3 border border-[#1c1c22] bg-[#0c0c0e]/30 hover:bg-[#121217] hover:border-[#3a3a46] transition-all duration-300"
                       >
-                        <div className="flex items-start gap-4 flex-1 min-w-0">
-                          <div className="w-9 h-9 border border-[#222] flex items-center justify-center bg-[#111214] shrink-0">
+                        <div className="flex items-start gap-3 sm:gap-4 flex-1 min-w-0">
+                          <div className="w-8 h-8 border border-[#222] flex items-center justify-center bg-[#111214] shrink-0">
                             {tome.icon}
                           </div>
                           <div className="flex-1 min-w-0">
                             <h4 className="font-['Cinzel',serif] text-sm md:text-base font-semibold tracking-wider text-[#e8e6e3] truncate">{tome.name}</h4>
-                            <p className="font-['Inter',sans-serif] text-[10px] font-medium tracking-widest text-[#71717a] uppercase leading-none mt-1">{tome.type}</p>
-                            <p className="font-['Inter',sans-serif] text-xs md:text-sm text-[#a1a1aa] leading-relaxed mt-1.5 font-light">{tome.desc}</p>
+                            <p className="font-['Inter',sans-serif] text-[9px] sm:text-[10px] font-medium tracking-widest text-[#71717a] uppercase leading-none mt-0.5">{tome.type}</p>
+                            <p className="font-['Inter',sans-serif] text-xs md:text-sm text-[#a1a1aa] leading-relaxed mt-1 font-light">{tome.desc}</p>
                           </div>
                         </div>
 
@@ -242,7 +242,7 @@ Services Offered:
                           <div className="flex items-center gap-2 shrink-0">
                             <button
                               onClick={() => setPreviewPdf({ title: tome.name, url: (tome as any).pdfUrl })}
-                              className="font-['Inter',sans-serif] text-xs font-medium tracking-[0.15em] uppercase py-2 px-3.5 border border-[#3a3a48] text-[#e8e6e3] hover:bg-[#e8e6e3] hover:text-[#0a0a0c] transition-colors text-center shrink-0 cursor-pointer bg-[#0c0c0e]/30 flex items-center gap-1.5"
+                              className="font-['Inter',sans-serif] text-[11px] sm:text-xs font-medium tracking-[0.15em] uppercase py-1.5 px-3 border border-[#3a3a48] text-[#e8e6e3] hover:bg-[#e8e6e3] hover:text-[#0a0a0c] transition-colors text-center shrink-0 cursor-pointer bg-[#0c0c0e]/30 flex items-center gap-1.5"
                             >
                               <Eye size={12} />
                               Preview
@@ -251,7 +251,7 @@ Services Offered:
                               href={(tome as any).pdfUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="font-['Inter',sans-serif] text-xs font-medium tracking-[0.15em] uppercase p-2 border border-[#252530] text-[#8a8a93] hover:text-[#e8e6e3] hover:border-[#4b5563] transition-colors shrink-0 cursor-pointer bg-[#0c0c0e]/30"
+                              className="font-['Inter',sans-serif] text-[11px] sm:text-xs font-medium tracking-[0.15em] uppercase p-1.5 border border-[#252530] text-[#8a8a93] hover:text-[#e8e6e3] hover:border-[#4b5563] transition-colors shrink-0 cursor-pointer bg-[#0c0c0e]/30"
                               title="Open in new tab"
                             >
                               <ExternalLink size={12} />
@@ -262,7 +262,7 @@ Services Offered:
                             href={tome.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="font-['Inter',sans-serif] text-xs font-medium tracking-[0.15em] uppercase py-2 px-3.5 border border-[#333] text-[#e8e6e3] hover:bg-[#e8e6e3] hover:text-[#0a0a0c] transition-colors text-center shrink-0 cursor-pointer bg-[#0c0c0e]/30"
+                            className="font-['Inter',sans-serif] text-[11px] sm:text-xs font-medium tracking-[0.15em] uppercase py-1.5 px-3 border border-[#333] text-[#e8e6e3] hover:bg-[#e8e6e3] hover:text-[#0a0a0c] transition-colors text-center shrink-0 cursor-pointer bg-[#0c0c0e]/30"
                           >
                             {tome.action}
                           </a>
@@ -275,7 +275,7 @@ Services Offered:
 
               {/* Freelance Services Card Tab */}
               {activeTab === "freelance" && (
-                <div className="space-y-4 flex flex-col">
+                <div className="space-y-3 flex flex-col">
                   <div className="flex items-center gap-3 pb-1 border-b border-[#1c1c22]">
                     <div className="w-2 h-2 bg-[#4b5563] rotate-45" />
                     <h3 className="font-['Cinzel',serif] text-xs md:text-sm font-semibold tracking-[0.3em] uppercase text-[#8a8a93]">
@@ -283,21 +283,21 @@ Services Offered:
                     </h3>
                   </div>
 
-                  <div className="space-y-3">
+                  <div className="space-y-2.5">
                     {/* Developer Header Banner */}
-                    <div className="border border-[#1c1c22] bg-[#0c0c0e]/50 p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div className="border border-[#1c1c22] bg-[#0c0c0e]/50 p-2.5 sm:p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
                       <div>
-                        <h4 className="font-['Cinzel',serif] text-sm md:text-base font-semibold text-[#e8e6e3] tracking-wider">
+                        <h4 className="font-['Cinzel',serif] text-xs sm:text-sm md:text-base font-semibold text-[#e8e6e3] tracking-wider">
                           {FREELANCE_SERVICES.developer.name}
                         </h4>
-                        <p className="font-['Inter',sans-serif] text-xs md:text-sm text-[#a1a1aa] font-light mt-0.5">
+                        <p className="font-['Inter',sans-serif] text-[11px] sm:text-xs md:text-sm text-[#a1a1aa] font-light mt-0.5">
                           {FREELANCE_SERVICES.developer.role} · {FREELANCE_SERVICES.developer.location}
                         </p>
                       </div>
 
                       <button
                         onClick={copyFreelanceCard}
-                        className="font-['Cinzel',serif] text-xs font-medium tracking-[0.15em] uppercase py-1.5 px-3.5 border border-[#252530] text-[#8a8a93] hover:text-[#e8e6e3] hover:border-[#4b5563] transition-colors shrink-0 cursor-pointer bg-[#0c0c0e]/30 flex items-center gap-1.5"
+                        className="font-['Cinzel',serif] text-[10px] sm:text-xs font-medium tracking-[0.15em] uppercase py-1 px-3 border border-[#252530] text-[#8a8a93] hover:text-[#e8e6e3] hover:border-[#4b5563] transition-colors shrink-0 cursor-pointer bg-[#0c0c0e]/30 flex items-center gap-1.5"
                       >
                         {copiedItem === "freelance-card" ? (
                           <>
@@ -314,31 +314,31 @@ Services Offered:
                     </div>
 
                     {/* Responsive 2-Column Grid of Services */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                       {FREELANCE_SERVICES.services.map((srv, i) => (
                         <div
                           key={i}
-                          className="p-3.5 border border-[#1c1c22] bg-[#0c0c0e]/30 hover:bg-[#121217] hover:border-[#3a3a46] transition-all duration-300 group flex flex-col justify-between space-y-2.5"
+                          className="p-3 border border-[#1c1c22] bg-[#0c0c0e]/30 hover:bg-[#121217] hover:border-[#3a3a46] transition-all duration-300 group flex flex-col justify-between space-y-2"
                         >
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-2.5">
-                              <div className="w-8 h-8 border border-[#222] flex items-center justify-center bg-[#111214] shrink-0 group-hover:border-[#4e4e5b] transition-colors">
+                          <div className="space-y-1.5">
+                            <div className="flex items-center gap-2">
+                              <div className="w-7 h-7 border border-[#222] flex items-center justify-center bg-[#111214] shrink-0 group-hover:border-[#4e4e5b] transition-colors">
                                 {srv.icon}
                               </div>
                               <h4 className="font-['Cinzel',serif] text-xs md:text-sm font-semibold tracking-wider text-[#e8e6e3]">
                                 {srv.title}
                               </h4>
                             </div>
-                            <p className="font-['Inter',sans-serif] text-xs md:text-sm text-[#a1a1aa] leading-relaxed font-light">
+                            <p className="font-['Inter',sans-serif] text-[11px] sm:text-xs md:text-sm text-[#a1a1aa] leading-relaxed font-light">
                               {srv.desc}
                             </p>
                           </div>
                           {/* Tech Stack Bar */}
-                          <div className="flex flex-wrap gap-1.5 pt-2 border-t border-[#181822]">
+                          <div className="flex flex-wrap gap-1 pt-1.5 border-t border-[#181822]">
                             {srv.stack.map((tech, tIdx) => (
                               <span
                                 key={tIdx}
-                                className="font-['Inter',sans-serif] text-[10px] md:text-[11px] font-medium tracking-wide text-[#71717a] bg-[#121218] px-2 py-0.5 rounded-xs border border-[#1a1a24]"
+                                className="font-['Inter',sans-serif] text-[9px] sm:text-[10px] md:text-[11px] font-medium tracking-wide text-[#71717a] bg-[#121218] px-1.5 py-0.5 rounded-xs border border-[#1a1a24]"
                               >
                                 {tech}
                               </span>
@@ -357,7 +357,7 @@ Services Offered:
       </div>
 
       {/* Social anchors & copyright at base */}
-      <div className="flex items-center gap-6 mt-6 md:mt-8 font-['Cinzel',serif] text-xs md:text-sm tracking-widest uppercase text-[#71717a] shrink-0 relative z-10">
+      <div className="flex items-center gap-4 sm:gap-6 mt-3 sm:mt-4 lg:mt-3 font-['Cinzel',serif] text-xs md:text-sm tracking-widest uppercase text-[#71717a] shrink-0 relative z-10">
         <a href="https://github.com/CurtisCullenAWong" target="_blank" rel="noopener noreferrer" className="hover:text-[#e8e6e3] transition-colors duration-200 cursor-pointer">
           GitHub
         </a>
@@ -371,7 +371,7 @@ Services Offered:
         </a>
       </div>
 
-      <div className="mt-4 text-center text-[#404046] font-['Inter',sans-serif] text-[10px] uppercase tracking-widest shrink-0 relative z-10">
+      <div className="mt-2 sm:mt-2.5 text-center text-[#404046] font-['Inter',sans-serif] text-[9px] sm:text-[10px] uppercase tracking-widest shrink-0 relative z-10">
         <p>&copy; {new Date().getFullYear()} Curtis C. A. Wong. All rights reserved.</p>
       </div>
 
